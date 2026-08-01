@@ -1,13 +1,16 @@
 import { X, O } from './Icons';
 
 interface SquareProps {
+
     currentSymbol: string | null;
+    isWinner: boolean;
     handleSquareAction: () => void;
+
 }
 
-function Square({ handleSquareAction, currentSymbol }: SquareProps) {
+function Square({ currentSymbol, isWinner, handleSquareAction }: SquareProps) {
 
-    let interactiveClasses = currentSymbol === null
+    let interactiveClasses = currentSymbol === null && !isWinner
         ? "hover:bg-white transition-transform cursor-pointer active:scale-95"
         : "cursor-not-allowed";
 
@@ -22,9 +25,10 @@ function Square({ handleSquareAction, currentSymbol }: SquareProps) {
         w-24 
         h-24
         border
-        border-slate-300       
+        border-slate-400
+        -mr-px -mb-px       
         ${interactiveClasses}`}
-        
+
             onClick={handleSquareAction}>
             {currentSymbol === 'x' && <X />}
             {currentSymbol === 'o' && <O />}
