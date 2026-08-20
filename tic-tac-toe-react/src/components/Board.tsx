@@ -26,13 +26,13 @@ function Board() {
 
     const hasWinner = winner !== null;
 
-    let currentSymbol: string | null = xIsNext ? 'x' : 'o';
+    let currentSymbol: string = xIsNext ? 'x' : 'o';
 
     function handleSquareAction(row: number, column: number) {
 
         const currentSquare = board[row][column];
 
-        if (currentSquare.value || hasWinner) return       
+        if (currentSquare.value || hasWinner) return
 
         const boardCopy: SquareProps[][] = board.map((r, rowIndex) => r.map(
 
@@ -50,21 +50,27 @@ function Board() {
         setBoard(boardCopy);
     }
 
-    return (<div className="flex bg-slate-300">{board.map(
+    return (<div className="
+        flex 
+        flex-col 
+        w-[96vw] 
+        min-w-[340px] 
+        max-w-[400px] 
+        aspect-square gap-1
+        rounded-3xl
+        overflow-hidden">{board.map(
         (row, rowIndex) =>
-            <div key={rowIndex}>
+            <div className="flex gap-1 h-full" key={rowIndex}>
                 {row.map((_, colIndex) => {
 
-                    const currentSquare = board[rowIndex][colIndex];
-
-                    const squareProps = {
-                        currentSymbol: currentSquare.value,
-                        isWinner: hasWinner,
-                        handleSquareAction() { handleSquareAction(rowIndex, colIndex) }
-                    };
+                    const currentSquare = board[rowIndex][colIndex];                   
 
                     return <Square key={`${rowIndex}-${colIndex}`}
-                        {...squareProps}
+                        currentSymbol={currentSquare.value}
+                        isWinner={hasWinner}
+                        rowIndex={rowIndex}
+                        colIndex={colIndex}
+                        onSquareClick={handleSquareAction}
                     /> }
                 )}
             </div>

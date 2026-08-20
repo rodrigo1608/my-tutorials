@@ -5,14 +5,15 @@ function App() {
 
   return (
 
-    <div className="flex flex-col  h-screen items-center bg-slate-200 text-slate-400">
+    <div className="flex flex-col h-screen items-center bg-light text-dark-gray">
+      
+      <header  className="py-20 w-full flex irems-center justify-center">
+          <img src="./symbols/logo_stacked.svg" alt="" width="84px"/>
+      </header>
 
-      <h1 className="text-4xl font-bold text-tracking-tight mt-20">
-        Tic Tac Toe React Tutorial
-      </h1>
-
-      <p>Player's turn:</p>
-      <Board/>
+        <main className="p-2 bg-gray rounded-4xl">
+          <Board/>
+        </main>
       
     </div>
   )

@@ -4,32 +4,33 @@ interface SquareProps {
 
     currentSymbol: string | null;
     isWinner: boolean;
-    handleSquareAction: () => void;
+    rowIndex:number;
+    colIndex:number;
+    onSquareClick: (rowIndex:number, colIndex:number) => void;
 
 }
 
-function Square({ currentSymbol, isWinner, handleSquareAction }: SquareProps) {
+function Square({ currentSymbol, isWinner, rowIndex, colIndex, onSquareClick }: SquareProps) {
 
     let interactiveClasses = currentSymbol === null && !isWinner
-        ? "hover:bg-white transition-transform cursor-pointer active:scale-95"
+        ? "hover:bg-gray transition-transform cursor-pointer active:scale-95"
         : "cursor-not-allowed";
 
     return (
-        <div className={`p-2        
+        <div className={`
+        p-2        
         flex 
         items-center 
         justify-center        
         bg-radial 
         from-slate-100/50 
         to-slate-200 
-        w-24 
-        h-24
-        border
-        border-slate-400
+        w-full 
+        h-full      
         -mr-px -mb-px       
         ${interactiveClasses}`}
 
-            onClick={handleSquareAction}>
+            onClick={() => onSquareClick(rowIndex,colIndex)}>
             {currentSymbol === 'x' && <X />}
             {currentSymbol === 'o' && <O />}
         </div>
