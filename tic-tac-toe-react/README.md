@@ -1,75 +1,45 @@
-# React + TypeScript + Vite
+# Tic-Tac-Toe (Jogo da Velha)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Todo mundo que aprende React conhece o clássico *Tic-Tac-Toe* da documentação oficial. Ele é ótimo para entender estados e imutabilidade, mas possui layout estático e visual puramente didático.
 
-Currently, two official plugins are available:
+Decidi pegar essa base e transformá-la em um projeto de **Design Engineering**, onde o foco principal foi a **Experiência do Usuário (UX)** e o **Design de Interface (UI)** do início ao fim.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+##  Diferenciais de UX/UI & Implementação
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+-  Design System & Prototipagem:** Antes de escrever o código, desenhei as telas e o fluxo no **Figma**, criando uma estrutura visual com *auto layouts*, variáveis e hierarquia clara para cada estado do jogo.
 
-## Expanding the ESLint configuration
+- **Estabilidade Visual & Zero Layout Shift:** No tutorial tradicional, o tabuleiro muda de comportamento conforme os símbolos são inseridos. Ajustei as restrições no **Tailwind CSS** (utilizando proporções e dimensões estáveis) para garantir que o render dos elementos dinâmicos não causasse nenhum "pulo" na tela.
+- **UX Responsiva Adaptativa:**
+  - **Desktop:** Criei uma experiência rica com painel lateral, histórico detalhado de coordenadas e *auto-scroll* suave via `useRef` para acompanhar as jogadas.
+  - **Mobile:** Redesenhei a interface para telas menores, condensando a navegação em um painel compacto na parte inferior, mantendo a área de toque confortável para o usuário.
+- **Arquitetura Desacoplada:** Levei a regra de negócio e o controle de tempo (*time travel*) para o `App`, mantendo os componentes de apresentação (`Board`, `Square`, `Panel`, `History`) totalmente isolados e tipados com **TypeScript**.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Tecnologias Utilizadas
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **[React](https://react.dev/):** Biblioteca de interface baseada em componentes funcionais e Hooks (`useState`, `useRef`, `useEffect`).
+- **[TypeScript](https://www.typescriptlang.org/):** Tipagem estática para garantia de segurança dos estados, propriedades de componentes e matrizes de jogo.
+- **[Tailwind CSS](https://tailwindcss.com/):** Estilização utilitária e responsiva (Flexbox, CSS Grid e design tokens).
+- **[Vite](https://vitejs.dev/):** Ferramenta de build rápida para o ambiente de desenvolvimento.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
 
-```
+## Arquitetura do Projeto
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+A aplicação adota o padrão **Lifting State Up (Elevação de Estado)**, mantendo o `App.tsx` como a única fonte da verdade (*single source of truth*) para o estado do jogo e histórico, promovendo componentes de apresentação desacoplados e previsíveis.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+```text
+src/
+├── components/
+│   ├── Board.tsx          # Renderiza a grade 3x3 e repassa eventos de clique
+│   ├── Square.tsx         # Casa individual do tabuleiro com tratamento de hover/clique
+│   ├── Panel.tsx          # Exibe o status da rodada, turno, vencedor ou empate
+│   ├── HistoryDesktop.tsx # Lista com auto-scroll e botões de navegação no desktop
+│   ├── HistoryMobile.tsx  # Barra compacta de controle de turno para mobile
+│   ├── HistoryButton.tsx  # Botão genérico configurável com estados ativo/desativado
+│   └── Icons.tsx          # Componentes SVG modulares e customizáveis (X, O, Controles)
+├── App.tsx                # Gerenciador do estado global (history, move, winner, tie)
+└── index.css              # Configurações globais e utilitários do Tailwind CSS
