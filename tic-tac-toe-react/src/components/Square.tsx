@@ -3,16 +3,16 @@ import { X, O } from './Icons';
 interface SquareProps {
 
     currentSymbol: string | null;
-    isWinner: boolean;
+    hasWinner: boolean;
     rowIndex:number;
     colIndex:number;
     onSquareClick: (rowIndex:number, colIndex:number) => void;
 
 }
 
-function Square({ currentSymbol, isWinner, rowIndex, colIndex, onSquareClick }: SquareProps) {
+function Square({ currentSymbol, hasWinner, rowIndex, colIndex, onSquareClick }: SquareProps) {
 
-    let interactiveClasses = currentSymbol === null && !isWinner
+    let interactiveClasses = currentSymbol === null && !hasWinner
         ? "hover:bg-gray transition-transform cursor-pointer active:scale-95"
         : "cursor-not-allowed";
 
